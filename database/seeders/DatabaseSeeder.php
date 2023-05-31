@@ -8,9 +8,7 @@ use App\Models\Admin;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Laravolt\Indonesia\Seeds\CitiesSeeder;
-use Laravolt\Indonesia\Seeds\DistrictsSeeder;
 use Laravolt\Indonesia\Seeds\ProvincesSeeder;
-use Laravolt\Indonesia\Seeds\VillagesSeeder;
 
 class DatabaseSeeder extends Seeder
 {

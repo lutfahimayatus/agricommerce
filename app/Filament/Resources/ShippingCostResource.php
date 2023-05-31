@@ -3,12 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ShippingCostResource\Pages;
-use App\Filament\Resources\ShippingCostResource\RelationManagers;
 use App\Models\ShippingCost;
-use Closure;
-use Filament\Forms;
 use Filament\Forms\Components\Card;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
@@ -18,14 +14,12 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ShippingCostResource extends Resource
 {
     protected static ?string $model = ShippingCost::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
-
 
     public static function getModelLabel(): string
     {
@@ -56,8 +50,7 @@ class ShippingCostResource extends Resource
                         ->relationship(
                             'city',
                             'name',
-                            fn (Builder $query, Closure $get) =>
-                            $query->where('province_code', '=', $get('province_code'))
+                            fn (Builder $query, callable $get) => $query->where('province_code', '=', $get('province_code'))
                         )
                         ->label('Kabupaten/kota')
                         ->getOptionLabelFromRecordUsing(fn (Model $record) => ucwords(strtolower($record->name)))
@@ -83,7 +76,7 @@ class ShippingCostResource extends Resource
                         ->required()
                         ->columnSpanFull(),
 
-                ])->columns(2)
+                ])->columns(2),
             ]);
     }
 
@@ -107,7 +100,7 @@ class ShippingCostResource extends Resource
                     ->label('Biaya Ongkir'),
                 TextColumn::make('id')
                     ->sortable()
-                    ->hidden()
+                    ->hidden(),
 
             ])
             ->defaultSort('id', 'desc')
@@ -116,31 +109,20 @@ class ShippingCostResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make()
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListShippingCosts::route('/'),
-            'create' => Pages\CreateShippingCost::route('/create'),
-            'edit' => Pages\EditShippingCost::route('/{record}/edit'),
+            'index' => Pages\ManageShippingCosts::route('/'),
         ];
     }
 
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
+            ->where('deleted_at', '=', null);
     }
 }

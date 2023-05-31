@@ -4,9 +4,9 @@ namespace App\Filament\Resources\ShippingCostResource\Pages;
 
 use App\Filament\Resources\ShippingCostResource;
 use Filament\Pages\Actions;
-use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\Pages\ManageRecords;
 
-class ListShippingCosts extends ListRecords
+class ManageShippingCosts extends ManageRecords
 {
     protected static string $resource = ShippingCostResource::class;
 
