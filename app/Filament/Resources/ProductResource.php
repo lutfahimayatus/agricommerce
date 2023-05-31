@@ -87,11 +87,25 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->sortable()->searchable()->label('Nama'),
-                TextColumn::make('price')->sortable()->searchable()->money(currency: 'IDR', shouldConvert: true)->label('Harga'),
-                TextColumn::make('stock')->sortable()->label('Stok'),
-                TextColumn::make('created_at')->sortable()->hidden(),
-                TextColumn::make('description')->limit(20)->searchable()->label('Deskripsi'),
+                TextColumn::make('name')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Nama'),
+                TextColumn::make('price')
+                    ->sortable()
+                    ->searchable()
+                    ->money(currency: 'IDR', shouldConvert: true)
+                    ->label('Harga'),
+                TextColumn::make('stock')
+                    ->sortable()
+                    ->label('Stok'),
+                TextColumn::make('created_at')
+                    ->sortable()
+                    ->hidden(),
+                TextColumn::make('description')
+                    ->limit(20)
+                    ->searchable()
+                    ->label('Deskripsi'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
