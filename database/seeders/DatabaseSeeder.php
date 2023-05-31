@@ -19,11 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\Product::factory(10)->create();
         \App\Models\Supplier::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        \App\Models\User::factory(10)->create();
 
         Admin::create([
             'name' => 'Test Admin',
@@ -39,5 +35,7 @@ class DatabaseSeeder extends Seeder
                 CitiesSeeder::class,
             ]
         );
+
+        \App\Models\ShippingCost::factory(10)->create();
     }
 }
