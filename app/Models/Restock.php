@@ -42,5 +42,14 @@ class Restock extends Model
                 ]
             );
         });
+
+        static::deleted(function (Restock $restock) {
+            $product = $restock->product;
+            $restock->product()->update(
+                [
+                    'stock' => $product->stock - $restock->amount,
+                ]
+            );
+        });
     }
 }
