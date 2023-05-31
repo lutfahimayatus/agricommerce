@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Restock extends Model
 {
     protected $guarded = ['id'];
+
     public $timestamps = false;
 
     public function product(): BelongsTo
@@ -27,7 +27,7 @@ class Restock extends Model
             $product = $restock->product;
             $restock->product()->update(
                 [
-                    'stock' => $product->stock + $restock->amount
+                    'stock' => $product->stock + $restock->amount,
                 ]
             );
         });
@@ -38,7 +38,7 @@ class Restock extends Model
             $currentStock = ($stock - $prevStock) + $restock->amount;
             $restock->product()->update(
                 [
-                    'stock' => $currentStock
+                    'stock' => $currentStock,
                 ]
             );
         });

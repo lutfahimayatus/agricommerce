@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RestockResource\Pages;
-use App\Filament\Resources\RestockResource\RelationManagers;
 use App\Models\Restock;
-use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -15,15 +13,12 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RestockResource extends Resource
 {
     protected static ?string $model = Restock::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
-
 
     public static function getModelLabel(): string
     {
@@ -96,8 +91,8 @@ class RestockResource extends Resource
                                 ->padFractionalZeros()
                                 ->thousandsSeparator('.'),
                         )
-                        ->required()
-                ])->columns(2)
+                        ->required(),
+                ])->columns(2),
             ]);
     }
 
@@ -130,7 +125,7 @@ class RestockResource extends Resource
                     ->label('Harga Jual'),
                 TextColumn::make('id')
                     ->sortable()
-                    ->hidden()
+                    ->hidden(),
             ])
             ->filters([
                 //
