@@ -25,7 +25,7 @@ class ProductResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return 'Data Produk';
+        return 'data produk';
     }
 
     public static function getPluralModelLabel(): string

@@ -23,7 +23,7 @@ class ShippingCostResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return 'Data Biaya Ongkir';
+        return 'data biaya ongkir';
     }
 
     public static function getPluralModelLabel(): string

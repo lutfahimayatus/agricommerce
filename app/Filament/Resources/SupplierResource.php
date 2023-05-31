@@ -25,7 +25,7 @@ class SupplierResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return 'Data Supplier';
+        return 'data supplier';
     }
 
     public static function getPluralModelLabel(): string
