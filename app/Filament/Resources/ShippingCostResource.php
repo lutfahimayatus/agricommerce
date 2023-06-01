@@ -19,7 +19,9 @@ class ShippingCostResource extends Resource
 {
     protected static ?string $model = ShippingCost::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-truck';
+
+    protected static ?string $navigationGroup = 'Data Master';
 
     public static function getModelLabel(): string
     {

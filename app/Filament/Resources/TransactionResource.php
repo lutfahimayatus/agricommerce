@@ -24,7 +24,9 @@ class TransactionResource extends Resource
 {
     protected static ?string $model = Transaction::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-switch-horizontal';
+
+    protected static ?string $navigationGroup = 'Manajemen Transaksi';
 
     public static function canCreate(): bool
     {
@@ -46,6 +48,10 @@ class TransactionResource extends Resource
         return 'Transaksi';
     }
 
+    public static function canDeleteAny(): bool
+    {
+        return false;
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -61,8 +67,9 @@ class TransactionResource extends Resource
                                         ->panelLayout('integrated')
                                         ->label('Bukti Transaksi')
                                         ->disabled()
+                                        ->enableOpen()
                                         ->enableDownload()
-                                        ->directory('proof_of_transaction')
+                                        ->directory('proofs_of_transaction')
                                         ->maxSize(5000),
                                     Fieldset::make('Informasi Pembeli')
                                         ->schema([

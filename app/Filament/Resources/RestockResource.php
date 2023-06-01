@@ -18,7 +18,9 @@ class RestockResource extends Resource
 {
     protected static ?string $model = Restock::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-inbox-in';
+
+    protected static ?string $navigationGroup = 'Manajemen Transaksi';
 
     public static function getModelLabel(): string
     {

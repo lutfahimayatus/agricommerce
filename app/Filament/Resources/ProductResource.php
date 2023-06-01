@@ -23,6 +23,8 @@ class ProductResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    protected static ?string $navigationGroup = 'Data Master';
+
     public static function getModelLabel(): string
     {
         return 'data produk';
@@ -40,6 +42,10 @@ class ProductResource extends Resource
                 Card::make([
                     FileUpload::make('picture')
                         ->label('Gambar Produk')
+                        ->directory('product_images')
+                        ->required()
+                        ->imagePreviewHeight('300')
+                        ->maxSize(5000)
                         ->image(),
                 ])
                     ->columnSpanFull(),

@@ -24,8 +24,7 @@ return new class extends Migration
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
             $table->unsignedBigInteger('total_pay');
-            $table->string('proof_of_transaction')
-                ->nullable();
+            $table->string('proof_of_transaction');
             $table->enum('status', ['SUCCESS', 'NOT_PAID', 'ERROR', 'PENDING']);
             $table->string('address');
             $table->string('tracking_number');
