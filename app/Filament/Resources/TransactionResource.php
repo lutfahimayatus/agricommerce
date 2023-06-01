@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Filament\Resources\TransactionResource\RelationManagers\DetailsRelationManager;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
@@ -52,6 +53,7 @@ class TransactionResource extends Resource
     {
         return false;
     }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -79,6 +81,9 @@ class TransactionResource extends Resource
                                             Placeholder::make('user.address')
                                                 ->label('Alamat')
                                                 ->content(fn ($record) => $record->address),
+                                            Placeholder::make('created_at')
+                                                ->label('Tgl Transaksi')
+                                                ->content(fn ($record) => Carbon::parse($record->created_at)->toDateString()),
                                             Placeholder::make('total_item')
                                                 ->label('Jumlah Item')
                                                 ->content(fn ($record) => $record->details->sum('qty')),
@@ -90,36 +95,43 @@ class TransactionResource extends Resource
                             )->columnSpan([
                                 'lg' => 2,
                             ]),
-                            Card::make(
+                            Grid::make()->schema(
                                 [
-                                    Fieldset::make('Pembayaran')
+                                    Card::make()
+                                        ->schema(
+                                            [
+                                                Fieldset::make('Pembayaran')
+                                                    ->schema([
+                                                        Select::make('status')
+                                                            ->options([
+                                                                'PENDING' => 'Pending',
+                                                                'NOT_PAID' => 'Belum Dibayar',
+                                                                'ERROR' => 'Error',
+                                                                'SUCCESS' => 'Selesai',
+                                                            ])->columnSpanFull(),
+                                                    ]),
+                                            ]
+                                        ),
+                                    Card::make()
                                         ->schema([
-                                            Select::make('status')
-                                                ->options([
-                                                    'PENDING' => 'Pending',
-                                                    'NOT_PAID' => 'Belum Dibayar',
-                                                    'ERROR' => 'Error',
-                                                    'SUCCESS' => 'Selesai',
-                                                ])->columnSpanFull(),
-                                        ]),
-
-                                    Fieldset::make('Pengiriman')
-                                        ->schema([
-                                            Placeholder::make('shipping_cost')
-                                                ->label('Biaya Ongkir')
-                                                ->columnSpanFull()
-                                                ->content(fn ($record) => money($record->shippingCost->cost, 'IDR', true)),
-                                            Placeholder::make('province')
-                                                ->label('Provinsi')
-                                                ->columnSpanFull()
-                                                ->content(fn ($record) => ucwords(strtolower($record->shippingCost->province->name))),
-                                            Placeholder::make('city')
-                                                ->label('Kota/Kabupaten')
-                                                ->columnSpanFull()
-                                                ->content(fn ($record) => ucwords(strtolower($record->shippingCost->city->name))),
-                                            TextInput::make('tracking_number')
-                                                ->label('No. resi')
-                                                ->columnSpanFull(),
+                                            Fieldset::make('Pengiriman')
+                                                ->schema([
+                                                    Placeholder::make('shipping_cost')
+                                                        ->label('Biaya Ongkir')
+                                                        ->columnSpanFull()
+                                                        ->content(fn ($record) => money($record->shippingCost->cost, 'IDR', true)),
+                                                    Placeholder::make('province')
+                                                        ->label('Provinsi')
+                                                        ->columnSpanFull()
+                                                        ->content(fn ($record) => ucwords(strtolower($record->shippingCost->province->name))),
+                                                    Placeholder::make('city')
+                                                        ->label('Kota/Kabupaten')
+                                                        ->columnSpanFull()
+                                                        ->content(fn ($record) => ucwords(strtolower($record->shippingCost->city->name))),
+                                                    TextInput::make('tracking_number')
+                                                        ->label('No. resi')
+                                                        ->columnSpanFull(),
+                                                ]),
                                         ]),
                                 ]
                             )->columnSpan([
@@ -139,6 +151,11 @@ class TransactionResource extends Resource
                     ->label('Pembeli')
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('created_at')
+                    ->label('Tgl Transaksi')
+                    ->date()
+                    ->sortable()
+                    ->searchable(),
                 BadgeColumn::make('status')
                     ->sortable()
                     ->enum([
@@ -151,6 +168,7 @@ class TransactionResource extends Resource
                         'success' => 'SUCCESS',
                         'danger' => 'ERROR',
                     ]),
+
                 TextColumn::make('address')
                     ->label('Alamat')
                     ->searchable(),
@@ -159,7 +177,7 @@ class TransactionResource extends Resource
                     ->sortable()
                     ->money('IDR', true),
 
-            ])
+            ])->defaultSort('created_at', 'desc')
             ->actions([
                 Tables\Actions\EditAction::make(),
             ]);
