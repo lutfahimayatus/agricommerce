@@ -19,7 +19,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $data['email'])->first();
 
-        if (!$user || !Hash::check($data['password'], $user->password)) {
+        if (! $user || ! Hash::check($data['password'], $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['Terjadi kesalahan saat login'],
             ]);

@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Shipping\ShippingCostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +30,18 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('me', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
+
+    Route::prefix('products')->group(function () {
+        Route::get('/', [ProductController::class, 'index']);
+        Route::get('/{product}', [ProductController::class, 'show']);
+        Route::post('/{product}/cart', [CartController::class, 'add']);
+    });
+
+    Route::prefix('cart')->group(function () {
+        Route::get('/', [CartController::class, 'index']);
+        Route::patch('/{product}', [CartController::class, 'update']);
+        Route::post('/checkout', [CartController::class, 'checkout']);
+    });
+
+    Route::get('shipping-costs', [ShippingCostController::class, 'index']);
 });

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\ShippingCost;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,23 +13,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignIdFor(ShippingCost::class)
+            $table->foreignIdFor(Product::class)
                 ->constrained()
-                ->restrictOnDelete()
+                ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->unsignedBigInteger('total_pay');
-            $table->string('proof_of_transaction')->nullable();
-            $table->enum('status', ['SUCCESS', 'NOT_PAID', 'ERROR', 'PENDING'])
-                ->default('NOT_PAID');
-            $table->string('address');
-            $table->string('tracking_number')
-                ->nullable();
+            $table->unsignedMediumInteger('qty');
             $table->timestamps();
         });
     }
@@ -39,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('carts');
     }
 };
