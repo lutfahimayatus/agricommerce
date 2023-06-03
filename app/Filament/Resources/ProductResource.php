@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Models\Product;
 use Filament\Forms\Components\Card;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
@@ -14,6 +13,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Nuhel\FilamentCropper\Components\Cropper;
 
 class ProductResource extends Resource
 {
@@ -40,15 +40,21 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Card::make([
-                    FileUpload::make('picture')
+                    Cropper::make('picture')
+                        ->imageCropAspectRatio('5:5')
+                        ->zoomable(true)
+                        ->modalSize('lg')
+                        ->enableZoomButtons()
                         ->label('Gambar Produk')
                         ->directory('product_images')
                         ->required()
-                        ->imagePreviewHeight('300')
+                        ->panelAspectRatio('5:5')
                         ->maxSize(5000)
                         ->image(),
                 ])
-                    ->columnSpanFull(),
+                    ->columnSpan([
+                        'md' => 1,
+                    ]),
                 Card::make(
                     [
                         TextInput::make('name')
@@ -84,7 +90,9 @@ class ProductResource extends Resource
                             ->columnSpanFull(),
 
                     ]
-                )->columnSpanFull()->columns(2),
+                )->columnSpan([
+                    'md' => 2,
+                ])->columns(2),
             ])->columns(3);
     }
 

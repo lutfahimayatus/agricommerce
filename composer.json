@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "laravolt/indonesia": "^0.34.0",
+        "nuhel/filament-cropper": "^1.1",
         "ysfkaya/filament-phone-input": "^1.3"
     },
     "require-dev": {
