@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Shipping\ShippingCostController;
+use App\Http\Controllers\Transaction\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,4 +45,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::get('shipping-costs', [ShippingCostController::class, 'index']);
+
+    Route::get('/transactions', [TransactionController::class, 'index']);
 });
