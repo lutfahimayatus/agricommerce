@@ -46,5 +46,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('shipping-costs', [ShippingCostController::class, 'index']);
 
-    Route::get('/transactions', [TransactionController::class, 'index']);
+    Route::prefix('transactions')->group(function () {
+        Route::get('/', [TransactionController::class, 'index']);
+        Route::post('/{transaction}', [TransactionController::class, 'submit']);
+    });
 });

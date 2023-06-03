@@ -119,7 +119,7 @@ class TransactionResource extends Resource
                                                     Placeholder::make('shipping_cost')
                                                         ->label('Biaya Ongkir')
                                                         ->columnSpanFull()
-                                                        ->content(fn ($record) => money($record->shippingCost->cost, 'IDR', true)),
+                                                        ->content(fn ($record) => money($record->total_pay - $record->details->sum('total_price'), 'IDR', true)),
                                                     Placeholder::make('province')
                                                         ->label('Provinsi')
                                                         ->columnSpanFull()
