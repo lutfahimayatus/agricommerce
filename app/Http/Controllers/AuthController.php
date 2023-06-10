@@ -34,7 +34,7 @@ class AuthController extends Controller
         $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
 
-        return ['data' => $user];
+        return new UserResource($user);
     }
 
     public function me()
