@@ -71,4 +71,21 @@ class CartController extends Controller
 
         return new TransactionResource($transaction);
     }
+
+    public function increase(Cart $cart)
+    {
+        abort_if($cart->user_id != auth()->user()->id, 403);
+        $cart->qty++;
+        return $cart->save();
+    }
+
+    public function decrease(Cart $cart)
+    {
+        abort_if($cart->user_id != auth()->user()->id, 403);
+        $cart->qty--;
+        if ($cart->qty == 0) {
+            return $cart->delete();
+        }
+        return $cart->save();
+    }
 }

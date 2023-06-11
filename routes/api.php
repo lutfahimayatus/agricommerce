@@ -42,6 +42,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', [CartController::class, 'index']);
         Route::patch('/{product}', [CartController::class, 'update']);
         Route::post('/checkout', [CartController::class, 'checkout']);
+        Route::post('/{cart}/increase', [CartController::class, 'increase']);
+        Route::post('/{cart}/decrease', [CartController::class, 'decrease']);
     });
 
     Route::get('shipping-costs', [ShippingCostController::class, 'index']);
