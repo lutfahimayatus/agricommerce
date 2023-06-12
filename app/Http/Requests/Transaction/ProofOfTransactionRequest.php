@@ -14,7 +14,7 @@ class ProofOfTransactionRequest extends FormRequest
     public function rules()
     {
         return [
-            'proof_of_transaction' => 'required|image|mimes:jpg,png,jpeg|max:2048',
+            'proof_of_transaction' => 'required|image|mimes:jpg,png,jpeg',
         ];
     }
 }
